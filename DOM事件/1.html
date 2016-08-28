@@ -1,0 +1,94 @@
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"></meta>
+	<title>DOM事件处理程序</title>
+	<script src="event.js"></script>
+	<script src="script.js"></script>
+</head>
+<body>
+<div id="box">
+	<input type="button" value="按钮" id="btn" onclick=showMes()>
+	<input type="button" value="按钮2" id="btn2" >
+	<input type="button" value="按钮3" id="btn3">
+	<a href="event.html" id="go">链接</a>
+</div>
+
+</body>
+</html>-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>dom事件</title>
+
+</head>
+
+<body>
+<div id="box">
+	<input type="button" value="按钮" id="btn" onClick="showMes()"/>
+	<input type="button" value="按钮2" id="btn2" />
+	<input type="button" value="按钮3" id="btn3" />
+	<a href="event.html" id="go">跳转</a>
+</div>
+
+
+<script type="text/javascript">
+function showMes(event){
+	alert(event.target.nodeName);
+	/*event.stopPropagation();*/
+	
+}
+function showBox(){
+alert("这是放按钮的盒子BOX");
+}
+function stopGoto(event){
+event.stopPropagation();
+event.preventDefault();
+}
+/*HTML 事件处理程序*/
+/*var btn2=document.getElementById('btn2');
+btn2.onclick=function(){
+	alert("hello world!");
+}DOM0级事件处理程序
+btn2.onclick=null;*/
+/*var btn3=document.getElementById('btn3');
+btn3.addEventListener('click',showMes,false);
+btn3.removeEventListener('click',showMes,false);*/
+//onclick要去掉on
+var btn3=document.getElementById('btn3');
+var box=document.getElementById('box');
+var Go=document.getElementById('go');
+/*btn3.attachEvent('onclick',showMes);
+btn3.detachEvent('onclick',showMes);*/
+var eventUtil={
+//添加句柄
+	addHandler:function(element,type,handler){
+	if(element.addEventListener){
+	element.addEventListener(type,handler,false);
+	}else if(element.attachEvent){
+	element.attachEvent('on'+type,handler);
+	}else {
+	element['on'+type]=handler;
+	}
+	},
+//删除句柄
+	removeHandler:function(elemrnt,type,handler){
+	if(element.removeEventListener){
+	element.addEventListener(type,handler,false);
+	}else if(element.detachEvent){
+	element.detachEvent('on'+type,handler);
+	}else {
+	element['on'+type]=null;
+	}
+	}
+}
+eventUtil.addHandler(btn3,'click',showMes);
+eventUtil.addHandler(box,'click',showBox);
+eventUtil.addHandler(Go,'click',stopGoto);
+</script>
+
+</body>
+</html>
